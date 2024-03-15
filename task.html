@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto py-8">
+        <h1 class="text-3xl font-semibold mb-4">Task List</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Placeholder for tasks -->
+        </div>
+    </div>
+
+    <script>
+        // Function to get query parameters from URL
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Fetch data from API with usernameParams
+        const usernameParams = getQueryParam('usernameParams');
+        if (usernameParams) {
+            fetch(`https://api-pml-pertemuan5.vercel.app/home/task/?usernameParams=${usernameParams}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tasksContainer = document.querySelector('.grid');
+
+                    // Loop through each task in the data and create a card for it
+                    for (const taskKey in data) {
+                        const taskValue = data[taskKey];
+
+                        // Create task card
+                        const taskCard = document.createElement('div');
+                        taskCard.classList.add('bg-white', 'p-4', 'rounded', 'shadow-md');
+
+                        // Add task title
+                        const taskTitle = document.createElement('h2');
+                        taskTitle.classList.add('text-lg', 'font-semibold', 'mb-2');
+                        taskTitle.textContent = taskKey;
+                        taskCard.appendChild(taskTitle);
+
+                        // Add task description
+                        const taskDescription = document.createElement('p');
+                        taskDescription.textContent = taskValue;
+                        taskCard.appendChild(taskDescription);
+
+                        // Append task card to container
+                        tasksContainer.appendChild(taskCard);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        } else {
+            console.error('No usernameParams provided in the URL.');
+        }
+    </script>
+</body>
+</html>
