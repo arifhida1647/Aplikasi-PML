@@ -39,7 +39,7 @@
                 .then(response => {
                     if (response.status === 200) {
                         // Jika login berhasil, arahkan pengguna ke halaman yang sesuai
-                        const redirectURL = `http://127.0.0.1:5500/task.html?usernameParams=${username}`;
+                        const redirectURL = `https://aplikasi-pml.vercel.app/task.html?usernameParams=${username}`;
                         window.location.href = redirectURL;
                     } else {
                         alert('Login gagal. Coba lagi.');
